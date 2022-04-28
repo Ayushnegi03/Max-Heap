@@ -1,0 +1,81 @@
+#MAX Heap
+#A Max-Heap is a complete binary tree in which the value in each
+# internal node is greater than or equal to the values in 
+# the children of that node.
+import sys
+class MaxHeap:
+    def __init__(self, maxsize):         
+        self.maxsize = maxsize
+        self.size = 0
+        self.Heap = [0] * (self.maxsize + 1)
+        self.Heap[0] = sys.maxsize
+        self.FRONT = 1
+    def Parent(self, POS):          
+        return POS // 2
+    def LeftChild(self, POS):        
+        return 2 * POS
+    def RightChild(self, POS):         
+        return (2 * POS) + 1
+    def Leaf(self, POS):          
+        if POS >= (self.size//2) and POS <= self.size:
+            return True
+        return False
+    def swap(self, fpos, spos):        
+        self.Heap[fpos], self.Heap[spos] = (self.Heap[spos], 
+                                            self.Heap[fpos])
+    def maxHeap(self, POS):
+        if not self.Leaf(POS):
+            if (self.Heap[POS] < self.Heap[self.LeftChild(POS)] or
+                self.Heap[POS] < self.Heap[self.RightChild(POS)]):
+                if (self.Heap[self.LeftChild(POS)] > 
+                    self.Heap[self.RightChild(POS)]):
+                    self.swap(POS, self.LeftChild(POS))
+                    self.maxHeap(self.LeftChild(POS))
+                else:
+                    self.swap(POS, self.RightChild(POS))
+                    self.maxHeap(self.RightChild(POS))
+    def insert(self, Element):         
+        if self.size >= self.maxsize:
+            return
+        self.size += 1
+        self.Heap[self.size] = Element 
+        current = self.size 
+        while (self.Heap[current] > 
+               self.Heap[self.Parent(current)]):
+            self.swap(current, self.Parent(current))
+            current = self.Parent(current)
+    def Print(self):         
+        for i in range(1, (self.size // 2) + 1):
+            print(" PARENT : " + str(self.Heap[i]) + 
+                  " LEFT CHILD : " + str(self.Heap[2 * i]) +
+                  " RIGHT CHILD : " + str(self.Heap[2 * i + 1]))
+    def ExtractMax(self): 
+        popped = self.Heap[self.FRONT]
+        self.Heap[self.FRONT] = self.Heap[self.size]
+        self.size -= 1
+        self.maxHeap(self.FRONT)         
+        return popped
+if __name__ == "__main__":     
+    print('The maxHeap is ')     
+    MaxHeap = MaxHeap(34)
+    MaxHeap.insert(7)
+    MaxHeap.insert(21)
+    MaxHeap.insert(18)
+    MaxHeap.insert(35)
+    MaxHeap.insert(56)
+    MaxHeap.insert(39)
+    MaxHeap.insert(63)
+    MaxHeap.insert(45)
+    MaxHeap.insert(100)
+    MaxHeap.insert(3)
+    MaxHeap.Print()     
+    print("The Max val is " + str(MaxHeap.ExtractMax()))
+# Output-
+# The maxHeap is 
+# PARENT : 100 LEFT CHILD : 63 RIGHT CHILD : 56
+# PARENT : 63 LEFT CHILD : 45 RIGHT CHILD : 21
+# PARENT : 56 LEFT CHILD : 18 RIGHT CHILD : 39
+# PARENT : 45 LEFT CHILD : 7 RIGHT CHILD : 35
+# PARENT : 21 LEFT CHILD : 3 RIGHT CHILD : 0
+#The Max val is 100
+    
