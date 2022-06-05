@@ -26,17 +26,6 @@ def insert(Array, Newnum):
         Array.append(Newnum);
         for i in range((Size//2)-1, -1, -1):
             heap(Array, Size, i)
-
-def deleteNode(Array, Num):
-    Size = len(Array)
-    i = 0
-    for i in range(0, Size):
-        if Num == Array[i]:
-            break
-    Array[i], Array[Size-1] = Array[Size-1], Array[i]
-    Array.remove(Num)
-    for i in range((len(Array)//2)-1, -1, -1):
-        heap(Array, len(Array), i)
 Arr = []
 insert(Arr, 3)
 insert(Arr, 4)
